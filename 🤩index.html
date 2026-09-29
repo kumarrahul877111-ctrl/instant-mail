@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instant Mail</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#101010;
+    color:#fff;
+    min-height:100vh;
+}
+
+.header{
+    height:190px;
+    background:#08a7b8;
+    border-radius:0 0 35px 35px;
+    padding:28px 22px;
+}
+
+.top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.menu{
+    font-size:30px;
+    cursor:pointer;
+}
+
+.title{
+    font-size:27px;
+    font-weight:bold;
+}
+
+.mailIcon{
+    font-size:30px;
+}
+
+.container{
+    width:92%;
+    max-width:600px;
+    margin:-65px auto 90px;
+    position:relative;
+}
+
+.card{
+    background:#1b1b1b;
+    border:1px solid #34434a;
+    border-radius:25px;
+    padding:20px;
+    box-shadow:0 10px 35px rgba(0,0,0,.35);
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#b5b8c2;
+    font-size:17px;
+    margin-bottom:14px;
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    background:#00d9a6;
+    border-radius:50%;
+    box-shadow:0 0 10px #00d9a6;
+}
+
+.emailBox{
+    background:#162a2d;
+    border-radius:18px;
+    padding:18px 14px;
+    color:#12bfd2;
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+    word-break:break-all;
+    margin-bottom:15px;
+}
+
+.copyBtn,
+.changeBtn{
+    width:100%;
+    border:none;
+    border-radius:15px;
+    padding:16px;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.copyBtn{
+    background:#09aabd;
+    color:white;
+    margin-bottom:12px;
+}
+
+.changeBtn{
+    background:#1c2021;
+    border:1px solid #075c67;
+    color:#11bfd1;
+}
+
+.copyBtn:active,
+.changeBtn:active{
+    transform:scale(.98);
+}
+
+.sectionTitle{
+    margin:28px 0 12px;
+    font-size:21px;
+    font-weight:bold;
+}
+
+.otpCard{
+    background:#1c1c1c;
+    border:1px solid #343d48;
+    border-radius:20px;
+    padding:18px;
+}
+
+.otpTop{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.sender{
+    color:#fff;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.time{
+    color:#8d929c;
+    font-size:13px;
+}
+
+.subject{
+    color:#d4d5d9;
+    margin-bottom:15px;
+}
+
+.otp{
+    background:#111;
+    border:1px dashed #0bb3c5;
+    border-radius:14px;
+    padding:17px;
+    text-align:center;
+    color:#13c7d8;
+    font-size:30px;
+    font-weight:bold;
+    letter-spacing:8px;
+}
+
+.empty{
+    text-align:center;
+    color:#888;
+    padding:30px 10px;
+    display:none;
+}
+
+.bottom{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:76px;
+    background:#202020;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    border-top:1px solid #292929;
+}
+
+.navItem{
+    text-align:center;
+    color:#969ba8;
+    font-size:13px;
+}
+
+.navIcon{
+    font-size:25px;
+    margin-bottom:4px;
+}
+
+.active{
+    color:#08bfd2;
+}
+
+.toast{
+    position:fixed;
+    bottom:90px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#252525;
+    color:white;
+    padding:12px 20px;
+    border-radius:30px;
+    display:none;
+    z-index:10;
+    box-shadow:0 5px 20px rgba(0,0,0,.4);
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="top">
+        <div class="menu">☰</div>
+        <div class="title">Instant Mail</div>
+        <div class="mailIcon">✉</div>
+    </div>
+</header>
+
+<main class="container">
+
+    <div class="card">
+
+        <div class="status">
+            <span class="dot"></span>
+            <span>Instant Email</span>
+        </div>
+
+        <div class="emailBox" id="email">
+            loading...
+        </div>
+
+        <button class="copyBtn" onclick="copyEmail()">
+            📋 &nbsp; Copy Email
+        </button>
+
+        <button class="changeBtn" onclick="changeEmail()">
+            ↻ &nbsp; Change Email
+        </button>
+
+    </div>
+
+    <div class="sectionTitle">
+        📩 Instant OTP
+    </div>
+
+    <div class="otpCard" id="otpCard">
+
+        <div class="otpTop">
+            <div class="sender">Verification</div>
+            <div class="time">Just now</div>
+        </div>
+
+        <div class="subject">
+            Your verification OTP
+        </div>
+
+        <div class="otp" id="otp">
+            ------
+        </div>
+
+    </div>
+
+    <div class="empty" id="empty">
+        No OTP received yet.
+    </div>
+
+</main>
+
+<div class="toast" id="toast">
+    Copied!
+</div>
+
+<nav class="bottom">
+
+    <div class="navItem active">
+        <div class="navIcon">⌂</div>
+        Home
+    </div>
+
+    <div class="navItem">
+        <div class="navIcon">▣</div>
+        OTP
+    </div>
+
+    <div class="navItem">
+        <div class="navIcon">⚙</div>
+        Settings
+    </div>
+
+</nav>
+
+<script>
+
+let currentEmail = "";
+let currentOTP = "";
+
+function randomNumber(length){
+    let result = "";
+    for(let i=0;i<length;i++){
+        result += Math.floor(Math.random()*10);
+    }
+    return result;
+}
+
+function generateEmail(){
+
+    const letters =
+        "abcdefghijklmnopqrstuvwxyz";
+
+    let name = "";
+
+    for(let i=0;i<6;i++){
+        name += letters[
+            Math.floor(Math.random()*letters.length)
+        ];
+    }
+
+    name += randomNumber(4);
+
+    currentEmail =
+        name + "@demo-mail.test";
+
+    document.getElementById("email").innerText =
+        currentEmail;
+}
+
+function generateOTP(){
+
+    currentOTP = randomNumber(6);
+
+    document.getElementById("otp").innerText =
+        currentOTP;
+}
+
+function changeEmail(){
+
+    generateEmail();
+    generateOTP();
+
+    showToast("New email created");
+}
+
+function copyEmail(){
+
+    if(!currentEmail) return;
+
+    navigator.clipboard.writeText(currentEmail)
+    .then(()=>{
+        showToast("Email copied");
+    })
+    .catch(()=>{
+        showToast("Copy failed");
+    });
+}
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.innerText = message;
+    toast.style.display = "block";
+
+    setTimeout(()=>{
+        toast.style.display = "none";
+    },1800);
+}
+
+generateEmail();
+generateOTP();
+
+</script>
+
+</body>
+</html>
