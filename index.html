@@ -1,1 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instant Mail</title>
 
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top,#123b55,#06101b 45%,#02060b);
+  color:white;
+  padding:20px;
+}
+
+.container{
+  max-width:500px;
+  margin:auto;
+}
+
+.logo{
+  text-align:center;
+  margin:20px 0;
+}
+
+.logo h1{
+  font-size:34px;
+  color:#28dfff;
+  text-shadow:0 0 20px #00d9ff;
+}
+
+.logo p{
+  color:#91a9bd;
+  margin-top:7px;
+}
+
+.card{
+  background:rgba(13,27,43,.92);
+  border:1px solid #1e506c;
+  border-radius:25px;
+  padding:22px;
+  box-shadow:0 0 35px rgba(0,210,255,.15);
+  margin-bottom:18px;
+}
+
+.title{
+  font-size:18px;
+  margin-bottom:12px;
+}
+
+.email{
+  background:#06101b;
+  border:1px solid #24546c;
+  padding:17px;
+  border-radius:15px;
+  color:#35e5ff;
+  font-size:17px;
+  text-align:center;
+  word-break:break-all;
+  margin-bottom:12px;
+}
+
+.buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+button{
+  border:0;
+  padding:14px;
+  border-radius:13px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.generate{
+  background:#19d8ff;
+  color:#001018;
+}
+
+.copy{
+  background:#18354a;
+  color:white;
+  border:1px solid #28617b;
+}
+
+button:active{
+  transform:scale(.97);
+}
+
+.status{
+  margin-top:15px;
+  padding:13px;
+  border-radius:12px;
+  background:#092719;
+  color:#52ef9a;
+  text-align:center;
+  font-size:14px;
+}
+
+.features{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.feature{
+  background:#0a1725;
+  border:1px solid #18384c;
+  border-radius:15px;
+  padding:15px;
+}
+
+.feature b{
+  display:block;
+  margin-bottom:5px;
+}
+
+.feature span{
+  color:#8ea5b7;
+  font-size:13px;
+}
+
+.qr{
+  text-align:center;
+  display:none;
+}
+
+.qr img{
+  width:180px;
+  height:180px;
+  background:white;
+  padding:8px;
+  border-radius:15px;
+  margin:15px;
+}
+
+.premium{
+  background:linear-gradient(135deg,#21184c,#102c48);
+  border:1px solid #715cff;
+}
+
+.premium h2{
+  color:#c5b9ff;
+  margin-bottom:7px;
+}
+
+.premium p{
+  color:#9fa9c5;
+  font-size:14px;
+  margin-bottom:15px;
+}
+
+.premium button{
+  width:100%;
+  background:#765cff;
+  color:white;
+}
+
+.footer{
+  text-align:center;
+  color:#60798a;
+  font-size:12px;
+  margin:25px 0 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="logo">
+    <h1>⚡ Instant Mail</h1>
+    <p>Fast • Simple • Private</p>
+  </div>
+
+  <div class="card">
+
+    <div class="title">📧 Your Temporary Email</div>
+
+    <div class="email" id="email">
+      Generating...
+    </div>
+
+    <div class="buttons">
+      <button class="generate" onclick="generateEmail()">
+        🔄 New Email
+      </button>
+
+      <button class="copy" onclick="copyEmail()">
+        📋 Copy
+      </button>
+    </div>
+
+    <div class="status" id="status">
+      🟢 Inbox Ready
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="title">✨ Quick Tools</div>
+
+    <div class="features">
+
+      <div class="feature">
+        <b>🛡️ Privacy</b>
+        <span>No personal information required</span>
+      </div>
+
+      <div class="feature">
+        <b>⚡ Fast</b>
+        <span>Generate an address instantly</span>
+      </div>
+
+      <div class="feature">
+        <b>📩 Inbox</b>
+        <span>Check your temporary inbox</span>
+      </div>
+
+      <div class="feature">
+        <b>🔐 Secure</b>
+        <span>Simple temporary mailbox</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="title">📱 Email QR Code</div>
+
+    <button class="copy" style="width:100%" onclick="showQR()">
+      Generate QR Code
+    </button>
+
+    <div class="qr" id="qrBox">
+      <img id="qrImage" src="" alt="QR Code">
+      <p style="color:#91a9bd">Scan to copy your email</p>
+    </div>
+
+  </div>
+
+  <div class="card premium">
+
+    <h2>👑 Premium Selection</h2>
+
+    <p>
+      Premium-style email experience with a clean,
+      fast and modern interface.
+    </p>
+
+    <button onclick="premiumMessage()">
+      ⭐ Explore Premium
+    </button>
+
+  </div>
+
+  <div class="footer">
+    © 2026 Instant Mail • All rights reserved
+  </div>
+
+</div>
+
+<script>
+
+let currentEmail = "";
+
+function generateEmail(){
+
+  let number = Math.floor(100000 + Math.random() * 900000);
+
+  currentEmail = "user" + number + "@instantmail.demo";
+
+  document.getElementById("email").innerText = currentEmail;
+
+  document.getElementById("status").innerText =
+    "🟢 New mailbox created";
+
+  document.getElementById("qrBox").style.display = "none";
+}
+
+function copyEmail(){
+
+  if(!currentEmail){
+    generateEmail();
+  }
+
+  navigator.clipboard.writeText(currentEmail)
+  .then(function(){
+
+    document.getElementById("status").innerText =
+      "✅ Email copied successfully";
+
+  })
+  .catch(function(){
+
+    document.getElementById("status").innerText =
+      "📋 Copy failed — hold and copy the email";
+
+  });
+}
+
+function showQR(){
+
+  if(!currentEmail){
+    generateEmail();
+  }
+
+  let qr =
+  "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="
+  + encodeURIComponent(currentEmail);
+
+  document.getElementById("qrImage").src = qr;
+
+  document.getElementById("qrBox").style.display = "block";
+}
+
+function premiumMessage(){
+
+  document.getElementById("status").innerText =
+    "👑 Premium selection opened";
+
+}
+
+generateEmail();
+
+</script>
+
+</body>
+</html>
